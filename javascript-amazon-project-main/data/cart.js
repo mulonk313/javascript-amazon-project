@@ -9,12 +9,15 @@ export function addToCart(productId){
     });
 
     if(matchingItem){
-        matchingItem.quantity +=1;
+        matchingItem.quantity += Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
     }else{
         cart.push({
             productId: productId,
-            quantity: 1
+            quantity: Number(document.querySelector(`.js-quantity-selector-${productId}`).value)
         });
     }
+
+    
+    
 
 }
