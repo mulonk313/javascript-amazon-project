@@ -17,7 +17,16 @@ export function addToCart(productId){
         });
     }
 
+    let messageTimeout = {};
+
+    document.querySelector(`.js-add-to-cart-message-${productId}`).classList.add('added-to-cart-opacity');
     
-    
+    if (messageTimeout[productId]) {
+        clearTimeout(messageTimeout[productId]);
+    }
+
+    messageTimeout[productId] = setTimeout(() => { 
+        document.querySelector(`.js-add-to-cart-message-${productId}`).classList.remove('added-to-cart-opacity');
+    }, '2000');
 
 }
