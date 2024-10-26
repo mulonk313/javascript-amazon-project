@@ -65,5 +65,27 @@ export function calculateCartQuantity(className) {
         productQuantity += cartItem.quantity;
     });
 
-    document.querySelector(className).innerHTML = productQuantity;
+    if(className === '.js-checkout-quantity')
+        if(productQuantity === 1)
+            return document.querySelector(className).innerHTML = productQuantity + ' item';
+        else
+            return document.querySelector(className).innerHTML = productQuantity + ' items';
+    
+    return document.querySelector(className).innerHTML = productQuantity;
+}
+
+export function updateQuantity(productId, newQuantity) {
+    cart.forEach((cartItem) => {
+        console.log(cartItem);
+        if (cartItem.productId === productId) {
+            cartItem.quantity = newQuantity; 
+        }
+        console.log(cartItem);
+    });
+
+    document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
+    calculateCartQuantity('.js-checkout-quantity');
+    
+    saveToStorage();
+
 }

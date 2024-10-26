@@ -209,3 +209,36 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.quantity-input{
+  width: 30px;
+  display: none;
+}
+
+.save-quantity-link{
+  display: none;
+}
+
+.is-editing-quantity .quantity-input{
+  display: initial !important;
+}
+
+.is-editing-quantity .save-quantity-link{
+  display: initial !important;
+}
+
+.is-editing-quantity .update-quantity-link{
+  display: none !important;
+}
+
+.validation-message{
+  line-height: 2rem;
+  white-space: nowrap;
+  display: none;
+  color: red;
+  font-weight: bold;
+}
+
+.is-validation-wrong .validation-message{
+  display: initial !important;
+}
