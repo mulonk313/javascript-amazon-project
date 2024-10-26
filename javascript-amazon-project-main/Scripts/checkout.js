@@ -144,6 +144,4 @@ document.querySelectorAll('.js-save-link').forEach((link) => {
     
 });
 
-
-
 Window.onload = calculateCartQuantity('.js-checkout-quantity');
