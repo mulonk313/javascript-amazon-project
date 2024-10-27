@@ -30,7 +30,7 @@ export function addToCart(productId){
         cart.push({
             productId: productId,
             quantity: Number(document.querySelector(`.js-quantity-selector-${productId}`).value),
-            deliveryOptions: '1'
+            deliveryOptionsId: '1'
         });
     }
 
@@ -68,13 +68,17 @@ export function calculateCartQuantity(className) {
         productQuantity += cartItem.quantity;
     });
 
-    if(className === '.js-checkout-quantity')
+    const element = document.querySelector(className);
+    if (!element) return productQuantity;
+
+    if(className === '.js-checkout-quantity'){
         if(productQuantity === 1)
-            return document.querySelector(className).innerHTML = productQuantity + ' item';
+            element.innerHTML = productQuantity + ' item';
         else
-            return document.querySelector(className).innerHTML = productQuantity + ' items';
+            element.innerHTML = productQuantity + ' items';
+    }else element.innerHTML = productQuantity;
     
-    return document.querySelector(className).innerHTML = productQuantity;
+    return productQuantity;
 }
 
 export function updateQuantity(productId, newQuantity) {
