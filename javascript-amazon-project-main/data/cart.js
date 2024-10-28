@@ -1,15 +1,22 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart;
 
-if(!cart){
-    cart = [{
-        productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-        quantity: 2,
-        deliveryOptionsId: '1'
-    },{
-        productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-        quantity: 1,
-        deliveryOptionsId: '2'
-    }];
+loadFromStorage();
+
+export function loadFromStorage(){
+    cart = JSON.parse(localStorage.getItem('cart'));
+
+    if(!cart){
+        cart = [{
+            productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+            quantity: 2,
+            deliveryOptionsId: '1'
+        },{
+            productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+            quantity: 1,
+            deliveryOptionsId: '2'
+        }];
+    }
+
 }
 
 function saveToStorage() {
@@ -24,27 +31,35 @@ export function addToCart(productId){
             matchingItem = cartItem;    
     });
 
+    const quantityElement = document.querySelector(`.js-quantity-selector-${productId}`);
+    const quantity = quantityElement ? Number(quantityElement.value) : 0;
+
     if(matchingItem){
         matchingItem.quantity += Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
     }else{
         cart.push({
             productId: productId,
-            quantity: Number(document.querySelector(`.js-quantity-selector-${productId}`).value),
+            quantity: quantity,
             deliveryOptionsId: '1'
         });
     }
 
+    console.log(cart);
+
     let messageTimeout = {};
 
-    document.querySelector(`.js-add-to-cart-message-${productId}`).classList.add('added-to-cart-opacity');
+    const messageElement = document.querySelector(`.js-add-to-cart-message-${productId}`);
+    messageElement 
+    ? messageElement.classList.add('added-to-cart-opacity')
+    : console.warn(`Element .js-add-to-cart-message-${productId} not found in the DOM.`);
     
-    if (messageTimeout[productId]) {
-        clearTimeout(messageTimeout[productId]);
-    }
+    // if (messageTimeout[productId]) {
+    //     clearTimeout(messageTimeout[productId]);
+    // }
 
-    messageTimeout[productId] = setTimeout(() => { 
-        document.querySelector(`.js-add-to-cart-message-${productId}`).classList.remove('added-to-cart-opacity');
-    }, '2000');
+    // messageTimeout[productId] = setTimeout(() => { 
+    //     document.querySelector(`.js-add-to-cart-message-${productId}`).classList.remove('added-to-cart-opacity');
+    // }, '2000');
 
     saveToStorage();
 }
