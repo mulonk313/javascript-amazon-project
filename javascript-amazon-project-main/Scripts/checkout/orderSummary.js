@@ -14,7 +14,7 @@ export function renderOrderSummary() {
         const deliveryOption = deliveryOptions.find(option => option.id === cartItem.deliveryOptionId);
 
         cartSummaryHTML += `
-            <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
+            <div class="cart-item-container js-cart-item-container js-cart-item-container-${matchingProduct.id}">
                 <div class="delivery-date">
                     Delivery date: ${calculateDeliveryDate(deliveryOption)}
                 </div>
@@ -24,7 +24,7 @@ export function renderOrderSummary() {
                     <div class="cart-item-details">
                         <div class="product-name">${matchingProduct.name}</div>
                         <div class="product-price">$${formatCurrency(matchingProduct.priceCents)}</div>
-                        <div class="product-quantity">
+                        <div class="product-quantity js-product-quantity-${matchingProduct.id}">
                             <span>Quantity: 
                                 <span class="quantity-label js-quantity-label js-quantity-label-${matchingProduct.id}">
                                     ${cartItem.quantity}
@@ -33,7 +33,7 @@ export function renderOrderSummary() {
                             <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">Update</span>
                             <input class="quantity-input js-quantity-input js-quantity-input-${matchingProduct.id}">
                             <span class="save-quantity-link link-primary js-save-link" data-product-id="${matchingProduct.id}">Save</span>
-                            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">Delete</span>
+                            <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${matchingProduct.id}" data-product-id="${matchingProduct.id}">Delete</span>
                             <span class="validation-message js-validation-message">Update number must be between 0 and 1000.</span>
                         </div>
                     </div>
