@@ -77,7 +77,6 @@ export function loadProductsFetch(){
       if(productDetails.type === 'clothing') return new Clothing(productDetails);
       return new Product(productDetails);
     });
-
   });
 
   return promise;
