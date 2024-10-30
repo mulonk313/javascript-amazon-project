@@ -68,7 +68,7 @@ logThis.call('Hello'); //Hello will take the position of this inside the functio
 //loadroume apo backend ta products
 export let products = [];
 
-export function loadProducts(fun) {
+export function loadProducts(fun = () => {}) {
   const xhr = new XMLHttpRequest();
   
   xhr.addEventListener('load', () => {
