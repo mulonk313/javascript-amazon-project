@@ -4,6 +4,6 @@ xhr.addEventListener('load', () => {
     console.log(xhr.respone);
 });
 
-xhr.open('GET', 'https://supersimplebackend.dev/hello=3');
+xhr.open('GET', 'https://supersimplebackend.dev/hello');
 xhr.send();
 
