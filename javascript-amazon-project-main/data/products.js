@@ -77,6 +77,8 @@ export function loadProductsFetch(){
       if(productDetails.type === 'clothing') return new Clothing(productDetails);
       return new Product(productDetails);
     });
+  }).catch(() =>{
+    console.log('Unexepected error. Please ttry again later.');
   });
 
   return promise;
@@ -97,12 +99,16 @@ export function loadProducts(fun = () => {}) {
 
     fun();
   });
+
+  xhr,addEventListener('error', (error) => {
+    console.log('Unexepected error. Please ttry again later.');
+  })
   
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 }
 
-loadProducts();
+//loadProducts();
 
 /*
 export const products = [
