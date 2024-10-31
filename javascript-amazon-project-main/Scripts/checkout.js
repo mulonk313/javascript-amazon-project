@@ -20,7 +20,7 @@ async function loadPage(){
             });
         });
     }catch(e){
-        console.log('Unexepected error. Please ttry again later.');
+        console.log('Unexepected error. Please try again later.');
     }
     
     renderOrderSummary();

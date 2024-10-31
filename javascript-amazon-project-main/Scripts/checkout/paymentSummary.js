@@ -59,7 +59,7 @@ export function renderPaymentSummary(){
 
     document.querySelector('.js-place-order').addEventListener('click', async () => {
         try{
-
+            
             const response = await fetch('https://supersimplebackend.dev/orders', {
                 method: 'POST',
                 headers: {
@@ -69,9 +69,9 @@ export function renderPaymentSummary(){
                     cart: cart
                 })
             });
-
             const order = await response.json();
             addOrder(order);
+            console.log(order)
         } catch(e){
             console.log('Unexpected error. Try again later.');
         }  

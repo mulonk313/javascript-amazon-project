@@ -34,9 +34,9 @@ export function addToCart(productId){
     const quantityElement = document.querySelector(`.js-quantity-selector-${productId}`);
     const quantity = quantityElement ? Number(quantityElement.value) : 0;
 
-    if(matchingItem){
-        matchingItem.quantity += Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-    }else{
+    if (matchingItem) {
+        matchingItem.quantity += quantity;
+    } else {
         cart.push({
             productId: productId,
             quantity: quantity,
@@ -44,14 +44,12 @@ export function addToCart(productId){
         });
     }
 
-    console.log(cart);
+    //let messageTimeout = {};
 
-    let messageTimeout = {};
-
-    const messageElement = document.querySelector(`.js-add-to-cart-message-${productId}`);
-    messageElement 
-    ? messageElement.classList.add('added-to-cart-opacity')
-    : console.warn(`Element .js-add-to-cart-message-${productId} not found in the DOM.`);
+    // const messageElement = document.querySelector(`.js-add-to-cart-message-${productId}`);
+    // messageElement 
+    // ? messageElement.classList.add('added-to-cart-opacity')
+    // : console.warn(`Element .js-add-to-cart-message-${productId} not found in the DOM.`);
     
     // if (messageTimeout[productId]) {
     //     clearTimeout(messageTimeout[productId]);
@@ -98,7 +96,6 @@ export function calculateCartQuantity(className) {
 
 export function updateQuantity(productId, newQuantity) {
     cart.forEach((cartItem) => {
-        console.log(cartItem);
         if (cartItem.productId === productId) {
             cartItem.quantity = newQuantity; 
         }
