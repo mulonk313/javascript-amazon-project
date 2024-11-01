@@ -23,16 +23,28 @@ function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-export function addToCart(productId){
-    let matchingItem;
+let messageTimeout = {};
 
+export function addToCart(productId) {
+    console.log(`addToCart called with productId: ${productId}`);
+
+    let matchingItem;
     cart.forEach((cartItem) => {
-        if(productId === cartItem.productId)
-            matchingItem = cartItem;    
+        if (productId === cartItem.productId) {
+            matchingItem = cartItem;
+        }
     });
 
+
     const quantityElement = document.querySelector(`.js-quantity-selector-${productId}`);
-    const quantity = quantityElement ? Number(quantityElement.value) : 0;
+    const quantity = quantityElement ? Number(quantityElement.value) : 1;
+    
+    console.log(`Quantity Element: ${quantityElement}, Quantity: ${quantity}`);
+
+    if (quantity <= 0) {
+        console.warn('Quantity is zero or invalid, not adding to cart.');
+        return false;
+    }
 
     if (matchingItem) {
         matchingItem.quantity += quantity;
@@ -44,22 +56,34 @@ export function addToCart(productId){
         });
     }
 
-    //let messageTimeout = {};
+    const messageElement = document.querySelector(`.js-add-to-cart-message-${productId}`);
+    if (messageElement) {
+        messageElement.classList.add('added-to-cart-opacity');
+    } else {
+        console.warn(`Element .js-add-to-cart-message-${productId} not found in the DOM.`);
+    }
 
-    // const messageElement = document.querySelector(`.js-add-to-cart-message-${productId}`);
-    // messageElement 
-    // ? messageElement.classList.add('added-to-cart-opacity')
-    // : console.warn(`Element .js-add-to-cart-message-${productId} not found in the DOM.`);
-    
-    // if (messageTimeout[productId]) {
-    //     clearTimeout(messageTimeout[productId]);
-    // }
+    if (messageTimeout[productId]) {
+        clearTimeout(messageTimeout[productId]);
+    }
 
-    // messageTimeout[productId] = setTimeout(() => { 
-    //     document.querySelector(`.js-add-to-cart-message-${productId}`).classList.remove('added-to-cart-opacity');
-    // }, '2000');
+    messageTimeout[productId] = setTimeout(() => {
+        const messageElement = document.querySelector(`.js-add-to-cart-message-${productId}`);
+        if (messageElement) {
+            messageElement.classList.remove('added-to-cart-opacity');
+        } else {
+            console.warn(`Element .js-add-to-cart-message-${productId} not found in the DOM.`);
+        }
+    }, 2000);
 
-    saveToStorage();
+    try {
+        saveToStorage();
+    } catch (error) {
+        console.error('Error saving to storage:', error);
+        return false; 
+    }
+
+    return true;
 }
 
 export function removeFromCart(productId){

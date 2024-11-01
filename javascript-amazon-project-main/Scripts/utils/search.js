@@ -1,17 +1,33 @@
 import { loadProductsFetch,products } from "../../data/products.js";
+import { calculateCartQuantity, addToCart } from "../../data/cart.js";
 
 export function searchBar() {
     const searchButton = document.querySelector('.js-search-button');
+    const searchBarElement = document.querySelector('.js-search-bar-value');
+
+    const searchItem = () => {
+        const searchItem = searchBarElement ? searchBarElement.value : '';
+        window.location.href = `amazon.html?search=${encodeURIComponent(searchItem)}`;
+    }
+
     if (searchButton) {
-        searchButton.addEventListener('click', () => {
-            const searchBarElement = document.querySelector('.js-search-bar-value');
-            const searchItem = searchBarElement ? searchBarElement.value : '';
-            window.location.href = `amazon.html?search=${encodeURIComponent(searchItem)}`;
-        });
+        searchButton.addEventListener('click', searchItem);
     } else {
         console.warn("Search button not found in the DOM.");
     }
+
+    if (searchBarElement) {
+        searchBarElement.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchItem();
+            }
+        });
+    } else {
+        console.warn("Search bar element not found in the DOM.");
+    }
 }
+
 
 
 
@@ -24,8 +40,8 @@ export async function search() {
 
     function find(){
         const filteredProducts = products.filter(prod => 
-            prod.name.toLowerCase().includes(searchUrl.toLowerCase()) || // Check name
-            prod.keywords.some(keyword => keyword.toLowerCase().includes(searchUrl.toLowerCase())) // Check keywords
+            prod.name.toLowerCase().includes(searchUrl.toLowerCase()) || 
+            prod.keywords.some(keyword => keyword.toLowerCase().includes(searchUrl.toLowerCase())) 
         );
 
         let productsHTML = '';
@@ -94,7 +110,6 @@ export async function search() {
             });
         });
         
-
     }
 
 }

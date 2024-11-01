@@ -1,7 +1,7 @@
 import { formatCurrency } from "../Scripts/utils/money.js";
 import { orders } from "../data/orders.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
-import { addToCart, calculateCartQuantity } from "../data/cart.js";
+import { calculateCartQuantity, addToCart } from "../data/cart.js";
 import { searchBar, search } from "./utils/search.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
@@ -47,7 +47,7 @@ function renderOrdersGrid() {
             <div class="product-name">${prod.name}</div>
             <div class="product-delivery-date">Arriving on: ${dayjs(product.estimatedDeliveryTime).format("MMMM D")}</div>
             <div class="product-quantity">Quantity: ${product.quantity || 1}</div>
-            <button class="buy-again-button button-primary js-buy-again-message" data-product-id=${product.productId}>
+            <button class="buy-again-button button-primary js-buy-again-button-message" data-product-id=${product.productId}>
               <img class="buy-again-icon" src="images/icons/buy-again.png">
               <span class="buy-again-message">Buy it again</span>
             </button>
@@ -73,12 +73,13 @@ function renderOrdersGrid() {
 
   document.querySelector('.js-order-container').innerHTML = ordersHTML;
 
-  document.querySelectorAll('.js-buy-again-message').forEach((button) => {
+  document.querySelectorAll('.js-buy-again-button-message').forEach((button) => {
     button.addEventListener('click', () => {
       const productId = button.dataset.productId; 
       
-      if(addToCart(productId)) console.log('Added');
-      calculateCartQuantity('.js-cart-quantity'); 
+      console.log(getProduct(productId));
+      addToCart(productId) ? console.log('Added') : console.log('Failed');
+      calculateCartQuantity('.js-cart-quantity') ? console.log('Added') : console.log('Failed');
     });
   });
 
