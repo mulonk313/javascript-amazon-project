@@ -2,6 +2,7 @@ import { formatCurrency } from "../Scripts/utils/money.js";
 import { orders } from "../data/orders.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
 import { addToCart, calculateCartQuantity } from "../data/cart.js";
+import { searchBar, search } from "./utils/search.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 loadProductsFetch().then(renderOrdersGrid);
@@ -80,6 +81,9 @@ function renderOrdersGrid() {
       calculateCartQuantity('.js-cart-quantity'); 
     });
   });
+
+  searchBar();
+  search();
 
   Window.onload = calculateCartQuantity('.js-cart-quantity');
 }

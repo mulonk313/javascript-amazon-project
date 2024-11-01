@@ -12,6 +12,9 @@ export function renderOrderSummary() {
         const productId = cartItem.productId;
         const matchingProduct = products.find((product) => product.id === productId);
         const deliveryOption = deliveryOptions.find(option => option.id === cartItem.deliveryOptionId);
+        
+        if(cartItem.quantity === 0)
+            removeFromCart(matchingProduct.id)
 
         cartSummaryHTML += `
             <div class="cart-item-container js-cart-item-container js-cart-item-container-${matchingProduct.id}">

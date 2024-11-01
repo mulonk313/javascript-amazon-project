@@ -1,14 +1,36 @@
-import {calculateCartQuantity, addToCart} from '../data/cart.js';
-import {products, loadProducts} from '../data/products.js';
-import { searchBar, search } from './utils/search.js';
+import { loadProductsFetch,products } from "../../data/products.js";
 
-loadProducts(renderProductsGrid);
+export function searchBar() {
+    const searchButton = document.querySelector('.js-search-button');
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
+            const searchBarElement = document.querySelector('.js-search-bar-value');
+            const searchItem = searchBarElement ? searchBarElement.value : '';
+            window.location.href = `amazon.html?search=${encodeURIComponent(searchItem)}`;
+        });
+    } else {
+        console.warn("Search button not found in the DOM.");
+    }
+}
 
-function renderProductsGrid(){
 
-    let productsHTML = '';
 
-    products.forEach((product) => {
+export async function search() {
+    await searchBar(); 
+    const url = new URL(window.location.href);
+    const searchUrl = url.searchParams.get('search');
+
+    loadProductsFetch().then(find);
+
+    function find(){
+        const filteredProducts = products.filter(prod => 
+            prod.name.toLowerCase().includes(searchUrl.toLowerCase()) || // Check name
+            prod.keywords.some(keyword => keyword.toLowerCase().includes(searchUrl.toLowerCase())) // Check keywords
+        );
+
+        let productsHTML = '';
+
+        filteredProducts.forEach((product) => {
         productsHTML += `
             <div class="product-container">
                 <div class="product-image-container">
@@ -60,20 +82,19 @@ function renderProductsGrid(){
                     Add to Cart
                 </button>
             </div>`;
-    });
-
-    document.querySelector('.js-products-grid').innerHTML = productsHTML;
-
-    document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-        button.addEventListener('click', () => {
-            const productId = button.dataset.productId;
-            addToCart(productId);
-            calculateCartQuantity('.js-cart-quantity');
         });
-    });
 
-    searchBar();
-    search();
+        document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-    Window.onload = calculateCartQuantity('.js-cart-quantity');
+        document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+            button.addEventListener('click', () => {
+                const productId = button.dataset.productId;
+                addToCart(productId);
+                calculateCartQuantity('.js-cart-quantity');
+            });
+        });
+        
+
+    }
+
 }
